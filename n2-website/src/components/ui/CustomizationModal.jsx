@@ -13,7 +13,6 @@ const CustomizationModal = () => {
     setIsCartOpen
   } = useCart();
 
-
   const isSnack = meal?.isSnack || false;
   const [totalQuantity, setTotalQuantity] = useState(1);
   const [riceSize, setRiceSize] = useState('200g');
@@ -65,19 +64,18 @@ const CustomizationModal = () => {
 
     while (weekDays.length < 5) {
       const dayOfWeek = checkDate.getDay();
-      
+
       if (endOfWeek && checkDate > endOfWeek) break;
 
       if (dayOfWeek >= 1 && dayOfWeek <= 5) {
         const cutoff = new Date(checkDate);
         cutoff.setHours(0, 0, 0, 0);
 
-        // Block public holidays
-        const isPublicHoliday = 
+        const isPublicHoliday =
           (checkDate.getDate() === 1 && checkDate.getMonth() === 4 && checkDate.getFullYear() === 2026) ||
           (checkDate.getDate() === 27 && checkDate.getMonth() === 4 && checkDate.getFullYear() === 2026);
 
-        if (now < cutoff && !isPublicHoliday) {
+        if (now < cutoff) {
           const dateStr = checkDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
           weekDays.push({
             id: `${dayNamesAbbr[dayOfWeek].toLowerCase()}-${checkDate.getDate()}-${checkDate.getMonth()}`,
@@ -85,7 +83,7 @@ const CustomizationModal = () => {
             nameFull: dayNamesFull[dayOfWeek],
             date: dateStr,
             fullDate: new Date(checkDate),
-            status: 'open'
+            status: isPublicHoliday ? 'closed' : 'open'
           });
 
           if (!endOfWeek) {
@@ -96,7 +94,7 @@ const CustomizationModal = () => {
         }
       }
       checkDate.setDate(checkDate.getDate() + 1);
-      
+
       if (checkDate.getTime() > now.getTime() + 21 * 24 * 60 * 60 * 1000) break;
     }
 
@@ -123,21 +121,21 @@ const CustomizationModal = () => {
 
   const calculateTotal = () => {
     let total = getBasePrice();
-    
+
     total += addons.softBoiledEgg * addonPrices.softBoiledEgg;
     total += addons.extraRice * addonPrices.extraRice;
     total += addons.extraVegetables * addonPrices.extraVegetables;
-    
+
     const totalExtraSauces = Object.values(extraSauces).reduce((a, b) => a + b, 0);
     total += totalExtraSauces * addonPrices.sauce;
-    
+
     Object.entries(extraChickenFlavors).forEach(([id, qty]) => {
       if (qty > 0) {
         const price = id === 'jerk' ? 2.30 : 1.90;
         total += qty * price;
       }
     });
-    
+
     return (total * totalQuantity).toFixed(2);
   };
 
@@ -234,7 +232,7 @@ const CustomizationModal = () => {
               <h3 className="section-label">SELECT COLLECTION DAY</h3>
               <div className="calendar-selection-grid">
                 {weekDays.map((day) => (
-                  <button 
+                  <button
                     key={day.id}
                     className={`calendar-day-btn ${day.status} ${selectedDay === day.id ? 'active' : ''}`}
                     disabled={day.status === 'closed'}
@@ -277,7 +275,7 @@ const CustomizationModal = () => {
                     { val: '200g', label: 'Maintaining' },
                     { val: '250g', label: 'Bulking' }
                   ].map(opt => (
-                    <div 
+                    <div
                       key={opt.val}
                       className={`rice-card ${riceSize === opt.val ? 'active' : ''}`}
                       onClick={() => setRiceSize(opt.val)}
@@ -294,7 +292,7 @@ const CustomizationModal = () => {
               <h3 className="section-label">CHOOSE BASE SAUCE</h3>
               <div className="sauce-cards">
                 {sauceData.map(sauce => (
-                  <div 
+                  <div
                     key={sauce.id}
                     className={`sauce-card ${selectedBaseSauce === sauce.id ? 'active' : ''}`}
                     onClick={() => setSelectedBaseSauce(sauce.id)}
@@ -332,50 +330,50 @@ const CustomizationModal = () => {
                       {flavorData
                         .filter(flavor => !['jalapeno', 'mediterranean'].includes(flavor.id))
                         .map(flavor => {
-                          const isBlocked = false; 
+                          const isBlocked = false;
                           return (
-                          <div key={flavor.id} className={`flavor-item ${isBlocked ? 'disabled' : ''}`}>
-                            <div className="flavor-left">
-                              <div className="flavor-img">
-                                <img src={flavor.icon} alt={flavor.name} />
-                              </div>
-                              <div className="flavor-info">
-                                <div className="flavor-name">
-                                  {flavor.name}
-                                  {isBlocked && <span className="sold-out-badge">SOLD OUT</span>}
+                            <div key={flavor.id} className={`flavor-item ${isBlocked ? 'disabled' : ''}`}>
+                              <div className="flavor-left">
+                                <div className="flavor-img">
+                                  <img src={flavor.icon} alt={flavor.name} />
                                 </div>
-                                <div className="flavor-meta" style={{ color: isBlocked ? '#444' : flavor.color }}>
-                                  +${flavor.id === 'jerk' ? '2.30' : '1.90'} · 100g serving
+                                <div className="flavor-info">
+                                  <div className="flavor-name">
+                                    {flavor.name}
+                                    {isBlocked && <span className="sold-out-badge">SOLD OUT</span>}
+                                  </div>
+                                  <div className="flavor-meta" style={{ color: isBlocked ? '#444' : flavor.color }}>
+                                    +${flavor.id === 'jerk' ? '2.30' : '1.90'} · 100g serving
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flavor-right">
+                                <div className="flavor-qty-controls">
+                                  <button
+                                    className="flavor-qty-btn minus"
+                                    onClick={() => updateFlavor(flavor.id, -1)}
+                                    disabled={extraChickenFlavors[flavor.id] === 0 || isBlocked}
+                                  >
+                                    <Minus size={14} />
+                                  </button>
+                                  <span className="flavor-qty-val">{extraChickenFlavors[flavor.id]}</span>
+                                  <button
+                                    className="flavor-qty-btn plus"
+                                    style={{
+                                      backgroundColor: isBlocked ? '#1a1a1c' : flavor.color,
+                                      opacity: isBlocked ? 0.3 : 1,
+                                      cursor: isBlocked ? 'not-allowed' : 'pointer'
+                                    }}
+                                    onClick={() => !isBlocked && updateFlavor(flavor.id, 1)}
+                                    disabled={isBlocked}
+                                  >
+                                    <Plus size={14} />
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                            <div className="flavor-right">
-                              <div className="flavor-qty-controls">
-                                <button 
-                                  className="flavor-qty-btn minus"
-                                  onClick={() => updateFlavor(flavor.id, -1)}
-                                  disabled={extraChickenFlavors[flavor.id] === 0 || isBlocked}
-                                >
-                                  <Minus size={14} />
-                                </button>
-                                <span className="flavor-qty-val">{extraChickenFlavors[flavor.id]}</span>
-                                <button 
-                                  className="flavor-qty-btn plus"
-                                  style={{ 
-                                    backgroundColor: isBlocked ? '#1a1a1c' : flavor.color,
-                                    opacity: isBlocked ? 0.3 : 1,
-                                    cursor: isBlocked ? 'not-allowed' : 'pointer'
-                                  }}
-                                  onClick={() => !isBlocked && updateFlavor(flavor.id, 1)}
-                                  disabled={isBlocked}
-                                >
-                                  <Plus size={14} />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </div>
                   </div>
                 )}
@@ -461,8 +459,8 @@ const CustomizationModal = () => {
             <span className="summary-label">Total Price</span>
             <span className="summary-total">${calculateTotal()}</span>
           </div>
-          <Button 
-            variant={(CONFIG.ORDERS_PAUSED || !selectedDay) ? 'secondary' : 'primary'} 
+          <Button
+            variant={(CONFIG.ORDERS_PAUSED || !selectedDay) ? 'secondary' : 'primary'}
             className={`btn-full checkout-btn ${(CONFIG.ORDERS_PAUSED || !selectedDay) ? 'btn-disabled' : ''}`}
             onClick={handleAddToCart}
             disabled={CONFIG.ORDERS_PAUSED || !selectedDay}
