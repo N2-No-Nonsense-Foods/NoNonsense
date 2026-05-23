@@ -32,20 +32,19 @@ const Menu = () => {
       image: '/images/nashville_chicken.png'
     },
     {
-      id: 'm5',
-      title: 'Jamaican Jerk',
-      badge: '🔥 New',
-      location: 'Kingston, Jamaica',
-      price: '$6.50',
-      features: ['Smoky', 'Fiery', 'Caribbean'],
-      subtitle: 'Inspired by the bold jerk pits of Kingston.',
-      description: 'Fiery scotch bonnet heat with allspice, thyme and a smoky char. Punchy, deeply Caribbean and unapologetically bold.',
-      footerIcon: '🔥',
-      footerText: 'Grilled fresh daily · extra virgin olive oil · real ingredients',
-      buttonText: 'Order Meal — $6.50',
-      image: '/images/jerk_chicken.png'
-    }
-  ];
+  id: 'm5',
+  title: 'Mediterranean Chicken',
+  badge: '🔥 New',
+  location: 'Mediterranean',
+  price: '$6.50',
+  features: ['Herb', 'Fresh', 'Light'],
+  subtitle: 'Sun-drenched flavours from the Mediterranean coast.',
+  description: 'Bright herbs, garlic and a touch of lemon. Clean, fresh and packed with flavour — a lighter take on bold grilled chicken.',
+  footerIcon: '🌿',
+  footerText: 'Grilled fresh daily · extra virgin olive oil · real ingredients',
+  buttonText: 'Order Meal — $6.50',
+  image: '/images/mediterranean_chicken.png'
+},
 
   return (
     <div className="menu-page">
