@@ -45,7 +45,7 @@ const Menu = () => {
   buttonText: 'Order Meal — $6.50',
   image: '/images/mediterranean_chicken.png'
 },
-
+    {
   return (
     <div className="menu-page">
       <div className="container pt-60">
