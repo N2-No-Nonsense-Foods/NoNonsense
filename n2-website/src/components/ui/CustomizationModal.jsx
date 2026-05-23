@@ -24,7 +24,6 @@ const CustomizationModal = () => {
   });
 
   const sauceData = [
-    // { id: 'pepper', name: 'Black Pepper', icon: '/images/black_pepper_sauce_cup.png', color: '#555' },
     { id: 'butter', name: 'Butter Chicken', icon: '/images/butter_chicken_sauce_cup.png', color: '#ffb347' },
     { id: 'ranch', name: 'Creamy Ranch', icon: '/images/creamy_ranch_sauce_cup.png', color: '#f8f9fa' }
   ];
@@ -41,7 +40,6 @@ const CustomizationModal = () => {
     if (!meal) return 'ranch';
     const title = meal.title.toLowerCase();
     if (title.includes('butter')) return 'butter';
-    // if (title.includes('pepper')) return 'pepper';
     return 'ranch';
   };
 
@@ -65,20 +63,19 @@ const CustomizationModal = () => {
 
     let endOfWeek = null;
 
-    // Look for available weekdays in a single week block
     while (weekDays.length < 5) {
       const dayOfWeek = checkDate.getDay();
       
-      // If we've defined an end of week and passed it, stop
       if (endOfWeek && checkDate > endOfWeek) break;
 
-      // Only include Monday – Friday
       if (dayOfWeek >= 1 && dayOfWeek <= 5) {
         const cutoff = new Date(checkDate);
         cutoff.setHours(0, 0, 0, 0);
 
-        // Block Friday May 1st 2026 (Public Holiday)
-        const isPublicHoliday = checkDate.getDate() === 1 && checkDate.getMonth() === 4 && checkDate.getFullYear() === 2026;
+        // Block public holidays
+        const isPublicHoliday = 
+          (checkDate.getDate() === 1 && checkDate.getMonth() === 4 && checkDate.getFullYear() === 2026) ||
+          (checkDate.getDate() === 27 && checkDate.getMonth() === 4 && checkDate.getFullYear() === 2026);
 
         if (now < cutoff && !isPublicHoliday) {
           const dateStr = checkDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
@@ -91,7 +88,6 @@ const CustomizationModal = () => {
             status: 'open'
           });
 
-          // Set endOfWeek to the Friday of the current week block
           if (!endOfWeek) {
             endOfWeek = new Date(checkDate);
             endOfWeek.setDate(checkDate.getDate() + (5 - dayOfWeek));
@@ -101,7 +97,6 @@ const CustomizationModal = () => {
       }
       checkDate.setDate(checkDate.getDate() + 1);
       
-      // Safety break to prevent infinite loop
       if (checkDate.getTime() > now.getTime() + 21 * 24 * 60 * 60 * 1000) break;
     }
 
@@ -129,16 +124,13 @@ const CustomizationModal = () => {
   const calculateTotal = () => {
     let total = getBasePrice();
     
-    // Addons
     total += addons.softBoiledEgg * addonPrices.softBoiledEgg;
     total += addons.extraRice * addonPrices.extraRice;
     total += addons.extraVegetables * addonPrices.extraVegetables;
     
-    // Extra Sauces
     const totalExtraSauces = Object.values(extraSauces).reduce((a, b) => a + b, 0);
     total += totalExtraSauces * addonPrices.sauce;
     
-    // Flavors
     Object.entries(extraChickenFlavors).forEach(([id, qty]) => {
       if (qty > 0) {
         const price = id === 'jerk' ? 2.30 : 1.90;
@@ -169,10 +161,10 @@ const CustomizationModal = () => {
       [id]: Math.max(0, prev[id] + delta)
     }));
   };
+
   const handleAddToCart = () => {
     if (!selectedDay) {
       setError('Please select a collection day');
-      // Scroll to calendar
       document.querySelector('.collection-calendar-section')?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
@@ -221,13 +213,6 @@ const CustomizationModal = () => {
     onClose();
   };
 
-  // Hardcoded collection details for demo based on screenshots
-  const nextDay = new Date();
-  nextDay.setDate(nextDay.getDate() + 1);
-  const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-  const dateStr = nextDay.toLocaleDateString('en-US', options);
-
-
   return (
     <div className="modern-modal-overlay" onClick={onClose}>
       <div className="modern-modal-content" onClick={e => e.stopPropagation()}>
@@ -245,7 +230,6 @@ const CustomizationModal = () => {
 
         <div className="modal-scroll-area">
           <div className="modal-body-padding">
-            {/* Collection Calendar Logic */}
             <section className="modal-section collection-calendar-section">
               <h3 className="section-label">SELECT COLLECTION DAY</h3>
               <div className="calendar-selection-grid">
@@ -266,12 +250,11 @@ const CustomizationModal = () => {
                 ))}
               </div>
               <p className="calendar-instruction">
-                Select your preferred collection day. Orders close at <strong>12:00 AM</strong> on the day before collection.
+                Select your preferred collection day. Orders close at <strong>12:00 AM</strong> on the day before collection. <span style={{color: '#00f1d9'}}>🌙 Wishing all our Muslim friends a blessed Hari Raya Haji! We will be closed on 27 May.</span>
               </p>
               {error && <div className="selection-error-msg">{error}</div>}
             </section>
 
-            {/* Global Quantity */}
             <section className="modal-section">
               <h3 className="section-label">QUANTITY</h3>
               <div className="global-quantity">
@@ -285,7 +268,6 @@ const CustomizationModal = () => {
               </div>
             </section>
 
-            {/* Rice Size - Only for Meals */}
             {!isSnack && (
               <section className="modal-section">
                 <h3 className="section-label">RICE SIZE</h3>
@@ -308,7 +290,6 @@ const CustomizationModal = () => {
               </section>
             )}
 
-            {/* Base Sauce Section */}
             <section className="modal-section">
               <h3 className="section-label">CHOOSE BASE SAUCE</h3>
               <div className="sauce-cards">
@@ -327,7 +308,6 @@ const CustomizationModal = () => {
               </div>
             </section>
 
-            {/* Extra Chicken Section (Moved between Base Sauce and Extra Sauces) */}
             <section className="modal-section chicken-promotion-section">
               <h3 className="section-label">ADD EXTRA CHICKEN</h3>
               <div className={`addon-modern-item flavor-accordion ${isExtraChickenOpen ? 'expanded' : ''}`}>
@@ -402,7 +382,6 @@ const CustomizationModal = () => {
               </div>
             </section>
 
-            {/* Extra Sauces Section */}
             <section className="modal-section">
               <h3 className="section-label">EXTRA SAUCES</h3>
               <div className="extra-sauce-list">
@@ -430,30 +409,9 @@ const CustomizationModal = () => {
               </div>
             </section>
 
-            {/* Add-ons Section */}
             <section className="modal-section">
               <h3 className="section-label">OTHER ADD-ONS</h3>
               <div className="addon-modern-list">
-
-
-{/* 
-                <div className={`addon-modern-item ${addons.softBoiledEgg > 0 ? 'active' : ''}`}>
-                  <div className="addon-icon-box">🥚</div>
-                  <div className="addon-details">
-                    <span className="addon-title">Soft Boiled Egg</span>
-                    <span className="addon-info">Soft, jammy centre</span>
-                  </div>
-                  <div className="addon-right">
-                    <span className="addon-cost">+$0.80</span>
-                    <div className="addon-qty-controls">
-                      <button onClick={() => updateAddon('softBoiledEgg', -1)}><Minus size={16} /></button>
-                      <span>{addons.softBoiledEgg}</span>
-                      <button className="plus-btn" onClick={() => updateAddon('softBoiledEgg', 1)}><Plus size={16} /></button>
-                    </div>
-                  </div>
-                </div>
-*/}
-
                 <div className={`addon-modern-item ${addons.extraRice > 0 ? 'active' : ''}`}>
                   <div className="addon-icon-box">🍚</div>
                   <div className="addon-details">
@@ -488,7 +446,6 @@ const CustomizationModal = () => {
               </div>
             </section>
 
-            {/* Collection Details Reminder */}
             <section className="modal-section collection-section">
               <h3 className="section-label">COLLECTION LOCATION</h3>
               <div className="collection-card">
@@ -499,7 +456,6 @@ const CustomizationModal = () => {
           </div>
         </div>
 
-        {/* Modal Footer */}
         <div className="modal-modern-footer">
           <div className="price-summary">
             <span className="summary-label">Total Price</span>
