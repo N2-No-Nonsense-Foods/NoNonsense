@@ -32,20 +32,21 @@ const Menu = () => {
       image: '/images/nashville_chicken.png'
     },
     {
-  id: 'm5',
-  title: 'Mediterranean Chicken',
-  badge: '🔥 New',
-  location: 'Mediterranean',
-  price: '$6.50',
-  features: ['Herb', 'Fresh', 'Light'],
-  subtitle: 'Sun-drenched flavours from the Mediterranean coast.',
-  description: 'Bright herbs, garlic and a touch of lemon. Clean, fresh and packed with flavour — a lighter take on bold grilled chicken.',
-  footerIcon: '🌿',
-  footerText: 'Grilled fresh daily · extra virgin olive oil · real ingredients',
-  buttonText: 'Order Meal — $6.50',
-  image: '/images/mediterranean_chicken.png'
-},
-    {
+      id: 'm5',
+      title: 'Mediterranean Chicken',
+      badge: '🔥 New',
+      location: 'Mediterranean',
+      price: '$6.50',
+      features: ['Herb', 'Fresh', 'Light'],
+      subtitle: 'Sun-drenched flavours from the Mediterranean coast.',
+      description: 'Bright herbs, garlic and a touch of lemon. Clean, fresh and packed with flavour — a lighter take on bold grilled chicken.',
+      footerIcon: '🌿',
+      footerText: 'Grilled fresh daily · extra virgin olive oil · real ingredients',
+      buttonText: 'Order Meal — $6.50',
+      image: '/images/mediterranean_chicken.png'
+    }
+  ];
+
   return (
     <div className="menu-page">
       <div className="container pt-60">
@@ -57,13 +58,11 @@ const Menu = () => {
             </div>
           </div>
         )}
-
         <section className="menu-section">
           <div className="section-header">
             <span className="section-badge text-cyan bg-cyan-alpha">From $6.50</span>
             <h2>High Protein Meals</h2>
           </div>
-
           <div className="menu-grid">
             {meals.filter(meal => !meal.isSoldOut).map(meal => (
               <FoodCard key={meal.id} {...meal} isDisabled={CONFIG.ORDERS_PAUSED} />
