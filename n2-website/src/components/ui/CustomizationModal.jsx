@@ -50,7 +50,6 @@ const CustomizationModal = () => {
     butter: 0, ranch: 0
   });
 
-  // Calendar Logic
   const getCurrentLaunchWeekDays = () => {
     const now = new Date();
     const weekDays = [];
@@ -328,7 +327,7 @@ const CustomizationModal = () => {
                     <div className="flavor-selection-label">CHOOSE FLAVOUR</div>
                     <div className="flavor-list">
                       {flavorData
-                        .filter(flavor => !['jalapeno', 'mediterranean'].includes(flavor.id))
+                        .filter(flavor => !['jalapeno', 'jerk'].includes(flavor.id))
                         .map(flavor => {
                           const isBlocked = false;
                           return (
@@ -343,7 +342,7 @@ const CustomizationModal = () => {
                                     {isBlocked && <span className="sold-out-badge">SOLD OUT</span>}
                                   </div>
                                   <div className="flavor-meta" style={{ color: isBlocked ? '#444' : flavor.color }}>
-                                    +${flavor.id === 'jerk' ? '2.30' : '1.90'} · 100g serving
+                                    +$1.90 · 100g serving
                                   </div>
                                 </div>
                               </div>
