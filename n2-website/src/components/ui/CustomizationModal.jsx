@@ -101,8 +101,7 @@ const CustomizationModal = () => {
   };
 
   const weekDays = getCurrentLaunchWeekDays();
-  const firstOpenDay = weekDays.find(d => d.status === 'open')?.id || '';
-  const [selectedDay, setSelectedDay] = useState(firstOpenDay);
+  const [selectedDay, setSelectedDay] = useState('');
   const [isExtraChickenOpen, setIsExtraChickenOpen] = useState(true);
   const [error, setError] = useState(null);
 
@@ -228,29 +227,50 @@ const CustomizationModal = () => {
         <div className="modal-scroll-area">
           <div className="modal-body-padding">
             <section className="modal-section collection-calendar-section">
-              <h3 className="section-label">SELECT COLLECTION DAY</h3>
-              <div className="calendar-selection-grid">
-                {weekDays.map((day) => (
-                  <button
-                    key={day.id}
-                    className={`calendar-day-btn ${day.status} ${selectedDay === day.id ? 'active' : ''}`}
-                    disabled={day.status === 'closed'}
-                    onClick={() => {
-                      setSelectedDay(day.id);
-                      setError(null);
-                    }}
-                  >
-                    <span className="day-abbr">{day.name}</span>
-                    <span className="day-date">{day.date}</span>
-                    <span className="day-badge">{day.status === 'open' ? 'OPEN' : 'CLOSED'}</span>
-                  </button>
-                ))}
-              </div>
-              <p className="calendar-instruction">
-                Select your preferred collection day. Orders close at <strong>12:00 AM</strong> on the day before collection. <span style={{color: '#00f1d9'}}>🌙 Wishing all our Muslim friends a blessed Hari Raya Haji! We will be closed on 27 May.</span>
-              </p>
-              {error && <div className="selection-error-msg">{error}</div>}
-            </section>
+  <div className="preorder-alert">
+    <span className="preorder-alert-icon">📅</span>
+    <div>
+      <strong>This is a PREORDER</strong>
+      <span>Select your collection day below to continue</span>
+    </div>
+  </div>
+  <h3 className="section-label">SELECT COLLECTION DAY</h3>
+  <div className="calendar-selection-grid">
+    {weekDays.map((day) => (
+      <button
+        key={day.id}
+        className={`calendar-day-btn ${day.status} ${selectedDay === day.id ? 'active' : ''}`}
+        disabled={day.status === 'closed'}
+        onClick={() => {
+          setSelectedDay(day.id);
+          setError(null);
+        }}
+      >
+        <span className="day-abbr">{day.name}</span>
+        <span className="day-date">{day.date}</span>
+        <span className="day-badge">{day.status === 'open' ? 'OPEN' : 'CLOSED'}</span>
+      </button>
+    ))}
+  </div>
+  {selectedDay && (() => {
+    const day = weekDays.find(d => d.id === selectedDay);
+    return (
+      <div className="selected-day-confirm">
+        <span className="selected-day-check">✓</span>
+        Collecting on <strong>{day.nameFull}, {day.date}</strong>
+      </div>
+    );
+  })()}
+  {!selectedDay && (
+    <div className="selected-day-prompt">
+      👆 Tap a day above to select your collection date
+    </div>
+  )}
+  <p className="calendar-instruction">
+    Orders close at <strong>12:00 AM</strong> the night before your selected collection day.
+  </p>
+  {error && <div className="selection-error-msg">{error}</div>}
+</section>
 
             <section className="modal-section">
               <h3 className="section-label">QUANTITY</h3>
