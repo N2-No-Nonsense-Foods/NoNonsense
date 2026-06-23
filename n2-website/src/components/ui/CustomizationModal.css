@@ -773,6 +773,72 @@
   padding: 24px;
 }
 
+/* Preorder Alert Banner */
+.preorder-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 241, 217, 0.08);
+  border: 1.5px solid #00f1d9;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.preorder-alert-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.preorder-alert strong {
+  display: block;
+  color: #00f1d9;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.preorder-alert span {
+  display: block;
+  color: #aaa;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+/* Selected day confirmation */
+.selected-day-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 241, 217, 0.08);
+  border: 1px solid rgba(0, 241, 217, 0.35);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.selected-day-check {
+  color: #00f1d9;
+  font-weight: 900;
+  font-size: 16px;
+}
+
+/* Prompt shown when no day selected */
+.selected-day-prompt {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed #2a2a2a;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px;
+  color: #555;
+  margin-top: 12px;
+  text-align: center;
+}
+
 .calendar-selection-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
