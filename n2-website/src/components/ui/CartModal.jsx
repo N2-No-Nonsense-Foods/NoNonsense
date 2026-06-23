@@ -56,6 +56,17 @@ const CartModal = () => {
         throw new Error(data.error || 'Failed to create payment. Please try again.');
       }
 
+      // Save collection days to sessionStorage so OrderSuccess can display them
+      const collectionDays = [...new Set(
+        cartItems
+          .map(item => item.customizations?.collectionDay)
+          .filter(Boolean)
+      )].join(', ');
+
+      if (collectionDays) {
+        sessionStorage.setItem('n2-collection-days', collectionDays);
+      }
+
       // Clear cart and close modal before redirect
       clearCart();
       setIsCartOpen(false);
@@ -91,7 +102,7 @@ const CartModal = () => {
         {/* Content */}
         <div className="cart-content">
 
-          {/* ── CART STEP ── */}
+          {/* CART STEP */}
           {step === 'cart' && (
             <>
               {cartItems.length === 0 ? (
@@ -144,7 +155,7 @@ const CartModal = () => {
             </>
           )}
 
-          {/* ── CHECKOUT STEP ── */}
+          {/* CHECKOUT STEP */}
           {step === 'checkout' && (
             <form className="checkout-form" onSubmit={handleProceedToPayment}>
               <div className="form-group">
