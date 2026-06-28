@@ -1,3 +1,4 @@
+```jsx
 import React, { useState } from 'react';
 import { X, Calendar, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp } from 'lucide-react';
 import Button from './Button';
@@ -110,7 +111,7 @@ const CustomizationModal = () => {
   const addonPrices = {
     extraChicken: 1.90,
     sauce: 1.00,
-    softBoiledEgg: 0.80,
+    softBoiledEgg: 0.90,
     extraRice: 1.00,
     extraVegetables: 1.00
   };
@@ -171,7 +172,7 @@ const CustomizationModal = () => {
         .filter(([_, qty]) => qty > 0)
         .map(([key, qty]) => {
           const labels = {
-            softBoiledEgg: 'Soft Boiled Egg',
+            softBoiledEgg: 'Boiled Egg',
             extraRice: 'Extra Rice',
             extraVegetables: 'Extra Vegetables'
           };
@@ -429,6 +430,22 @@ const CustomizationModal = () => {
             <section className="modal-section">
               <h3 className="section-label">OTHER ADD-ONS</h3>
               <div className="addon-modern-list">
+                <div className={`addon-modern-item ${addons.softBoiledEgg > 0 ? 'active' : ''}`}>
+                  <div className="addon-icon-box">🥚</div>
+                  <div className="addon-details">
+                    <span className="addon-title">Boiled Egg</span>
+                    <span className="addon-info">+6g protein</span>
+                  </div>
+                  <div className="addon-right">
+                    <span className="addon-cost">+$0.90</span>
+                    <div className="addon-qty-controls">
+                      <button onClick={() => updateAddon('softBoiledEgg', -1)}><Minus size={16} /></button>
+                      <span>{addons.softBoiledEgg}</span>
+                      <button className="plus-btn" onClick={() => updateAddon('softBoiledEgg', 1)}><Plus size={16} /></button>
+                    </div>
+                  </div>
+                </div>
+
                 <div className={`addon-modern-item ${addons.extraRice > 0 ? 'active' : ''}`}>
                   <div className="addon-icon-box">🍚</div>
                   <div className="addon-details">
@@ -494,3 +511,4 @@ const CustomizationModal = () => {
 };
 
 export default CustomizationModal;
+```
