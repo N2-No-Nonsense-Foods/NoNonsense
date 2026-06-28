@@ -564,3 +564,5 @@ return (
 );
 
 };
+
+export default CustomizationModal;
