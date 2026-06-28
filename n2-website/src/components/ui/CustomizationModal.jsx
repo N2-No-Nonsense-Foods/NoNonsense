@@ -1,4 +1,3 @@
-```jsx
 import React, { useState } from 'react';
 import { X, Calendar, Minus, Plus, ShoppingBag, ChevronDown, ChevronUp } from 'lucide-react';
 import Button from './Button';
