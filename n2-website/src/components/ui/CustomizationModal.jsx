@@ -131,7 +131,7 @@ const CustomizationModal = () => {
 
     Object.entries(extraChickenFlavors).forEach(([id, qty]) => {
       if (qty > 0) {
-        const price = id === 'jerk' ? 2.30 : 1.90;
+        const price = 1.90;
         total += qty * price;
       }
     });
