@@ -12,7 +12,7 @@ const Menu = () => {
       price: '$6.50',
       features: ['Creamy', 'Bold', 'Aromatic'],
       subtitle: 'Inspired by the spice houses of Old Delhi.',
-      description: 'Rich, velvety and deeply aromatic. Slow-cooked spices layered with a bold in-house butter chicken sauce — made with cashew nut paste and premium cottage cheese. Comforting, indulgent and clean.',
+      description: 'Rich, velvety and deeply aromatic. Slow-Grilled spices layered with a bold in-house butter chicken sauce — made with cashew nut paste and premium cottage cheese. Comforting, indulgent and clean.',
       footerIcon: '🍛',
       footerText: 'In-house butter chicken sauce — cashew nut paste, premium cottage cheese, real spices. Thick, rich and made from scratch.',
       buttonText: 'Order Meal — $6.50',
@@ -33,17 +33,17 @@ const Menu = () => {
     },
     {
       id: 'm5',
-      title: 'Mediterranean Chicken',
+      title: 'Jamaican Jerk',
       badge: '🔥 New',
-      location: 'Mediterranean',
+      location: 'Jamaica',
       price: '$6.50',
-      features: ['Herb', 'Fresh', 'Light'],
-      subtitle: 'Sun-drenched flavours from the Mediterranean coast.',
-      description: 'Bright herbs, garlic and a touch of lemon. Clean, fresh and packed with flavour — a lighter take on bold grilled chicken.',
-      footerIcon: '🌿',
+      features: ['Smoky', 'Spicy', 'Bold'],
+      subtitle: 'Slow-marinated island heat from the Caribbean.',
+      description: 'Scotch bonnet, allspice and thyme, slow-marinated then grilled over high heat for deep smoky char. Bold, spicy and unapologetically punchy.',
+      footerIcon: '🌶️',
       footerText: 'Grilled fresh daily · extra virgin olive oil · real ingredients',
       buttonText: 'Order Meal — $6.50',
-      image: '/images/mediterranean_chicken.png'
+      image: '/images/jerk_chicken.png'
     }
   ];
 
