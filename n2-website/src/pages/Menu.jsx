@@ -33,17 +33,17 @@ const Menu = () => {
     },
     {
       id: 'm5',
-      title: 'Jamaican Jerk',
+      title: 'Mediterranean',
       badge: '🔥 New',
-      location: 'Jamaica',
+      location: 'Mediterranean Coast',
       price: '$6.50',
-      features: ['Smoky', 'Spicy', 'Bold'],
-      subtitle: 'Slow-marinated island heat from the Caribbean.',
-      description: 'Scotch bonnet, allspice and thyme, slow-marinated then grilled over high heat for deep smoky char. Bold, spicy and unapologetically punchy.',
-      footerIcon: '🌶️',
+      features: ['Herby', 'Zesty', 'Fresh'],
+      subtitle: 'Sun-soaked flavours from the coast.',
+      description: 'Oregano, lemon zest and garlic, slow-marinated then grilled over high heat for a bright, herby char. Fresh, zesty and clean.',
+      footerIcon: '🌿',
       footerText: 'Grilled fresh daily · extra virgin olive oil · real ingredients',
       buttonText: 'Order Meal — $6.50',
-      image: '/images/jerk_chicken.png'
+      image: '/images/mediterranean_chicken.png'
     }
   ];
 
