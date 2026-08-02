@@ -32,8 +32,7 @@ const CustomizationModal = () => {
     { id: 'butter', name: 'Butter Chicken', icon: '/images/butter_chicken_chicken_flavor.png', color: '#ffb347' },
     { id: 'jalapeno', name: 'Jalapeno', icon: '/images/jalapeno_chicken.png', color: '#4ade80' },
     { id: 'nashville', name: 'Nashville Hot Honey', icon: '/images/nashville_chicken.png', color: '#ef4444' },
-    { id: 'mediterranean', name: 'Mediterranean', icon: '/images/mediterranean_chicken.png', color: '#60a5fa' },
-    { id: 'jerk', name: 'Jamaican Jerk', icon: '/images/jerk_chicken.png', color: '#fbbf24' }
+    { id: 'mediterranean', name: 'Mediterranean', icon: '/images/mediterranean_chicken.png', color: '#60a5fa' }
   ];
 
   const getDefaultSauce = () => {
@@ -45,7 +44,7 @@ const CustomizationModal = () => {
 
   const [selectedBaseSauce, setSelectedBaseSauce] = useState(getDefaultSauce());
   const [extraChickenFlavors, setExtraChickenFlavors] = useState({
-    butter: 0, jalapeno: 0, nashville: 0, mediterranean: 0, jerk: 0
+    butter: 0, jalapeno: 0, nashville: 0, mediterranean: 0
   });
   const [extraSauces, setExtraSauces] = useState({
     butter: 0, ranch: 0
@@ -349,7 +348,7 @@ const CustomizationModal = () => {
                     <div className="flavor-selection-label">CHOOSE FLAVOUR</div>
                     <div className="flavor-list">
                       {flavorData
-                        .filter(flavor => !['jalapeno', 'mediterranean'].includes(flavor.id))
+                        .filter(flavor => !['jalapeno'].includes(flavor.id))
                         .map(flavor => {
                           const isBlocked = false;
                           return (
